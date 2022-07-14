@@ -9,6 +9,9 @@ require("dotenv").config();
 const ErrorFunction = require("./Helpers/ErrorFunction");
 const SendResponse = require("./Helpers/SendResponse");
 
+// Import routers
+const UserRoutes = require("./Routes/userRoutes");
+
 // Application configuration setup
 app.use(cookieParser());
 app.use(express.json());
@@ -24,6 +27,10 @@ app.get("/", async (req, res) => {
   console.log(req.cookies);
   res.send(SendResponse(true, "Api is working fine"));
 });
+
+// User routes
+app.use("/api/v1/user", UserRoutes);
+
 
 // Error handling
 app.use(ErrorFunction);
