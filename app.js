@@ -1,18 +1,35 @@
-const mongoose = require("mongoose");
-const app = require("./app");
+// importing packages
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const app = express();
+require("dotenv").config();
 
-// Application port
-const port = process.env.PORT || 3000;
+// Import helper functions
+const ErrorFunction = require("./Helpers/ErrorFunction");
+const SendResponse = require("./Helpers/SendResponse");
 
-// Connect to databsae and run this application
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+// Application configuration setup
+app.use(cookieParser());
+app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
   })
-  .then(() => {
-    console.log("Database connection successful");
-    // Application running
-    app.listen(port, () => console.log("Server runing is port", port));
-  })
-  .catch((err) => console.log("MongoDB Connection Error: ", err));
+);
+
+// Api request handling
+app.get("/", async (req, res) => {
+  console.log(req.cookies);
+  res.send(SendResponse(true, "Api is working fine"));
+});
+
+// Error handling
+app.use(ErrorFunction);
+// Handle undefined routes
+app.use("*", (req, res, next) => {
+  res.status(404).send(SendResponse(false, "Undefined route"));
+});
+
+module.exports = app;
