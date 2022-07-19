@@ -11,6 +11,7 @@ const SendResponse = require("./Helpers/SendResponse");
 
 // Import routers
 const UserRoutes = require("./Routes/userRoutes");
+const ProductRoutes = require("./Routes/productRoutes");
 
 // Application configuration setup
 app.use(cookieParser());
@@ -30,7 +31,8 @@ app.get("/", async (req, res) => {
 
 // User routes
 app.use("/api/v1/user", UserRoutes);
-
+// Product routes
+app.use("/api/v1/product", ProductRoutes);
 
 // Error handling
 app.use(ErrorFunction);
