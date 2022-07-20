@@ -5,10 +5,10 @@ const User = require("../../Models/user/userModel");
 
 const productAdd = async (req, res, next) => {
   try {
-    User.exists({ _id: req.body.user_id }, (err, productData) => {
+    User.exists({ _id: req.body.user_id }, (err) => {
       if (!err) {
-        Product.create(req?.body, (err, productData) => {
-          if (!err) {
+        Product.create(req?.body, (err2, productData) => {
+          if (!err2) {
             res
               .status(201)
               .send(
