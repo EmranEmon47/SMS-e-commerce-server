@@ -38,15 +38,14 @@ const Signin = async (req, res, next) => {
               // Expire date calculate
               const date = new Date();
               date.setMonth(date.getMonth() + 2);
-              
               // Cookie set
               res.cookie("Auth_token", token, {
                 httpOnly: true,
                 expires: date,
                 sameSite: "none",
-                secure: true,
+                secure:
+                  process?.env?.MODE == "DEVELOPMENT" ? false : true,
               });
-
               res.status(200).send(SendResponse(true, "Signin successful"));
             } else {
               UnauthorizedError(res);
